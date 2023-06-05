@@ -1,5 +1,5 @@
 {
-	"name": "my-ink-cli",
+	"name": "iih",
 	"version": "0.0.0",
 	"license": "MIT",
 	"bin": "dist/cli.js",
