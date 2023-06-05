@@ -27,3 +27,11 @@ $ iih --help
   Examples
     $ iih --host irc.libera.chat --channel '##spam'
 ```
+
+## Roadmap
+
+- [ ] custom nicks
+- [X] fix scroll flicker
+- [ ] fix ChatInput flicker
+  - [ ] fix upstream ink-text-input UncontrolledTextInput bug?
+- [ ] clean up code
