@@ -7,7 +7,9 @@
 ## Install
 
 ```bash
-$ npm install --global my-ink-cli
+git clone https://github.com/emivespa/iih
+cd iih
+npm run build
 ```
 
 ## CLI
