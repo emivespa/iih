@@ -4,7 +4,7 @@
 
 ## Dependencies
 
-* [`ii`](https://tools.suckless.org/ii/) - from suckless.org
+- [`ii`](https://tools.suckless.org/ii/) - from suckless.org
 
 ## Install
 
@@ -33,7 +33,9 @@ $ iih --help
 ## Roadmap
 
 - [ ] custom nicks
-- [X] fix scroll flicker
+  - [ ] nicks with NickServ
+- [x] fix scroll flicker
+- [x] fix spacing bug
 - [ ] fix ChatInput flicker
   - [ ] fix upstream ink-text-input UncontrolledTextInput bug?
-- [ ] clean up code
+- [x] clean up code
