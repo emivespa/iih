@@ -82,32 +82,37 @@ const writeToFifo = (s: string, fifo: string) => {
 	// const writeableStream = fs.createWriteStream(fifo, {flags: 'a'});
 	// writeableStream.write(s);
 	// writeableStream.end();
-	exec(`echo "${s}" >${fifo}`);
+	fs.access(fifo, fs.constants.F_OK, err => {
+		if (err) {
+			if (process.env['DEBUG']) {
+				console.info(`${fifo} doesn't exist, waiting 1000ms`);
+			}
+			setTimeout(() => {
+				writeToFifo(s, fifo);
+			}, 1000);
+			return;
+		}
+		exec(`echo "${s}" >${fifo}`);
+		if (process.env['DEBUG']) {
+			console.info(`wrote ${s} to ${fifo}`);
+		}
+	});
 };
 
 // Join send the /j(oin) message whenever the in file starts existing.
-const HOME = process.env['HOME'];
-const inFile = path.resolve(`${HOME}/irc/${cli.flags.host}/in`);
-const writeOnceAvailable = () => {
-	fs.access(inFile, fs.constants.F_OK, err => {
-		if (err) {
-			console.error(`${inFile} doesn't exist yet, waiting 1000ms...`);
-			setTimeout(writeOnceAvailable, 1000);
-			return;
-		}
-		if (cli.flags.pass) {
-			const nick = `/m NickServ IDENTIFY ${cli.flags.nick} ${cli.flags.pass}\n`;
-			writeToFifo(nick, inFile);
-		}
-		const join = `/j ${cli.flags.channel}\n`;
-		writeToFifo(join, inFile);
-		render(
-			<App
-				channel={cli.flags.channel}
-				host={cli.flags.host}
-				nick={cli.flags.nick}
-			/>,
-		);
-	});
-};
-writeOnceAvailable();
+const hostIn = path.resolve(`${process.env['HOME']}/irc/${cli.flags.host}/in`);
+const nickservIn = path.resolve(
+	`${process.env['HOME']}/irc/${cli.flags.host}/nickserv/in`,
+);
+writeToFifo(`/j ${cli.flags.channel}\n`, hostIn);
+if (cli.flags.pass) {
+	writeToFifo(`/j nickserv\n`, hostIn);
+	writeToFifo(`IDENTIFY ${cli.flags.nick} ${cli.flags.pass}\n`, nickservIn);
+}
+render(
+	<App
+		channel={cli.flags.channel}
+		host={cli.flags.host}
+		nick={cli.flags.nick}
+	/>,
+);

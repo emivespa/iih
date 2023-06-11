@@ -20,22 +20,23 @@ npm run build
 $ iih --help
 
   Usage
-    $ iih --host $host --channel $channel
+    $ iih
 
   Options
     --host your.host
-    --channel '#channel'
+    --channel '#yourchannel'
+    --nick minime
+    --pass minipass
 
   Examples
-    $ iih --host irc.libera.chat --channel '##spam'
+    $ iih --host irc.libera.chat --channel '##spam' --nick minime --pass minipass
 ```
 
 ## Roadmap
 
-- [ ] custom nicks
-  - [ ] nicks with NickServ
+- [x] custom nicks
+  - [x] nicks with NickServ
 - [x] fix scroll flicker
 - [x] fix spacing bug
 - [ ] fix ChatInput flicker
       requires fixing ink-text-input's UncontrolledTextInput
-- [x] clean up code
