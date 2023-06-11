@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'ink';
 import meow from 'meow'; // https://github.com/sindresorhus/meow
 import App from './app.js';
-import {execSync, spawn} from 'child_process';
+import {exec, execSync, spawn} from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
@@ -42,10 +42,9 @@ const cli = meow(
 		},
 	},
 );
-// TODO: don't if there are 'in' fifos present
 
-// Spawn ii in the background.
-
+// If not already runnign, spawn ii.
+// On exit, only kill it if we spawned it.
 const isIiRunning = () => {
 	try {
 		execSync('pidof ii');
@@ -64,16 +63,26 @@ if (!isIiRunning()) {
 		},
 	);
 	iiProcess.unref();
+	const iiPid = iiProcess.pid;
+	process.on('exit', () => {
+		iiPid && process.kill(iiPid, 'SIGTERM');
+		setTimeout(() => {
+			process.exit();
+		}, 1000);
+	});
 	process.on('SIGINT', () => {
-		iiProcess.kill();
-		process.exit();
+		iiPid && process.kill(iiPid, 'SIGTERM');
+		setTimeout(() => {
+			process.exit();
+		}, 1000);
 	});
 }
 
 const writeToFifo = (s: string, fifo: string) => {
-	const writeableStream = fs.createWriteStream(fifo, {flags: 'a'});
-	writeableStream.write(s);
-	writeableStream.end();
+	// const writeableStream = fs.createWriteStream(fifo, {flags: 'a'});
+	// writeableStream.write(s);
+	// writeableStream.end();
+	exec(`echo "${s}" >${fifo}`);
 };
 
 // Join send the /j(oin) message whenever the in file starts existing.
