@@ -10,8 +10,9 @@ import path from 'path';
 type Props = {
 	host: string | undefined;
 	channel: string | undefined;
+	nick: string | undefined;
 };
-export default function ChatInput({host, channel}: Props) {
+export default function ChatInput({host, channel, nick}: Props) {
 	// https://github.com/vadimdemedes/ink-text-input#usage
 	//
 	// TODO: use uncontrolled variant to prevent flicker?
@@ -34,7 +35,7 @@ export default function ChatInput({host, channel}: Props) {
 	return (
 		<Box width="100%">
 			<Box marginRight={1}>
-				<Text>&gt;</Text>
+				<Text>&lt;{nick}&gt;</Text>
 			</Box>
 			<Box>
 				<TextInput value={query} onChange={setQuery} onSubmit={handleSubmit} />

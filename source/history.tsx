@@ -10,6 +10,7 @@ import path from 'path';
 type Props = {
 	host: string | undefined;
 	channel: string | undefined;
+	nick: string | undefined;
 };
 
 export default function ChatHistory({host, channel}: Props) {

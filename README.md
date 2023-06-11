@@ -37,5 +37,5 @@ $ iih --help
 - [x] fix scroll flicker
 - [x] fix spacing bug
 - [ ] fix ChatInput flicker
-  - [ ] fix upstream ink-text-input UncontrolledTextInput bug?
+      requires fixing ink-text-input's UncontrolledTextInput
 - [x] clean up code
