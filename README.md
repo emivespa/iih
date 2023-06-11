@@ -39,4 +39,4 @@ $ iih --help
 - [x] fix scroll flicker
 - [x] fix spacing bug
 - [ ] fix ChatInput flicker
-      requires fixing ink-text-input's UncontrolledTextInput
+  - requires fixing ink-text-input's UncontrolledTextInput
