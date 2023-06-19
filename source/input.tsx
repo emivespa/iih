@@ -34,8 +34,8 @@ export default function ChatInput({host, channel}: Props) {
 	};
 	return (
 		<Box width="100%">
-			<Box marginRight={1}>
-				<Text>&gt;</Text>
+			<Box marginLeft={14} marginRight={1}>
+				<Text dimColor>&gt;</Text>
 			</Box>
 			<Box>
 				<TextInput value={query} onChange={setQuery} onSubmit={handleSubmit} />
