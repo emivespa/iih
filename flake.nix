@@ -1,22 +1,30 @@
 {
-  description = "iih";
-
+  description = "";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
-
-  outputs = { self, nixpkgs }:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-      {
-        devShells.${system}.default = pkgs.mkShell {
-          packages = with pkgs; [
-            ii
-          ];
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        overlays = [
+          (self: super: rec {
+            nodejs = super.nodejs-18_x;
+            pnpm = super.nodePackages.pnpm;
+          })
+        ];
+        pkgs = import nixpkgs { inherit overlays system; };
+        lib = nixpkgs.lib;
+        packages = with pkgs; [
+          #
+          ii
+          nodejs
+          pnpm
+        ];
+      in {
+        devShells.default = pkgs.mkShell {
+          packages = packages;
+          shellHook = "echo 'entering dev shell'";
         };
-      };
+      });
 }
-
-
