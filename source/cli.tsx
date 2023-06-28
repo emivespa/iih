@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import React from 'react';
-import { render } from 'ink';
+import {render} from 'ink';
 import meow from 'meow'; // https://github.com/sindresorhus/meow
 import App from './app.js';
-import { exec, execSync, spawn } from 'child_process';
+import {exec, execSync, spawn} from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
@@ -43,11 +43,17 @@ const cli = meow(
   },
 );
 
-// If not already runnign, spawn ii.
+const hostIn = path.resolve(`${process.env['HOME']}/irc/${cli.flags.host}/in`);
+
+// If not already running, spawn ii.
 // On exit, only kill it if we spawned it.
 const isIiRunning = () => {
   try {
     execSync('pidof ii');
+    if (!fs.existsSync(hostIn)) {
+      // Maybe ii is running for another host.
+      return false;
+    }
     return true;
   } catch {
     return false;
@@ -100,7 +106,7 @@ const writeToFifo = (s: string, fifo: string) => {
 };
 
 // Join send the /j(oin) message whenever the in file starts existing.
-const hostIn = path.resolve(`${process.env['HOME']}/irc/${cli.flags.host}/in`);
+// const hostIn = path.resolve(`${process.env['HOME']}/irc/${cli.flags.host}/in`);
 const nickservIn = path.resolve(
   `${process.env['HOME']}/irc/${cli.flags.host}/nickserv/in`,
 );
