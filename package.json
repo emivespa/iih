@@ -1,5 +1,5 @@
 {
-	"name": "iih",
+	"name": "@emivespa/iih",
 	"version": "0.0.0",
 	"license": "MIT",
 	"bin": "dist/cli.js",
@@ -10,7 +10,7 @@
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsc --watch",
-		"test": "prettier --check . && xo && ava"
+		"test": "prettier --check . && ava"
 	},
 	"files": [
 		"dist"
@@ -45,13 +45,6 @@
 		"nodeArguments": [
 			"--loader=ts-node/esm"
 		]
-	},
-	"xo": {
-		"extends": "xo-react",
-		"prettier": true,
-		"rules": {
-			"react/prop-types": "off"
-		}
 	},
 	"prettier": "@vdemedes/prettier-config"
 }
